@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def xy_for_scope_csv(path):
+def df_for_csv(path):
     df = pd.read_csv(path, skiprows=20)
     df = df.iloc[:, [3, 4]]
     df.columns = ['x', 'y']
