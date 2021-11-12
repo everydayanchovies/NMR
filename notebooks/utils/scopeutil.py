@@ -8,5 +8,5 @@ def df_for_csv(path):
     return df
 
 
-def path_for_measurement_params(delay, signal_index):
+def filepath_for_measurement_params(delay, signal_index):
     return f"../data/T2/delay{delay}u00{signal_index}.csv"
