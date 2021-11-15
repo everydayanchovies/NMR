@@ -34,6 +34,32 @@ METADATA = {
                 "1_16": [400, 450, 500, 550, 600, 650, 700, 900]
             }
         }
+    },
+    STOF_ACETOON: {
+        K_VERHOUDINGEN: ["1_1", "1_2"],
+        K_DELAY_INTERVALS: {
+            T1: {
+                "1_1": [],
+                "1_2": [],
+            },
+            T2: {
+                "1_1": [],
+                "1_2": [],
+            }
+        }
+    },
+    STOF_KOPERCHLORIDE_ACETOON: {
+        K_VERHOUDINGEN: ["1_1", "1_2"],
+        K_DELAY_INTERVALS: {
+            T1: {
+                "1_1": [],
+                "1_2": [],
+            },
+            T2: {
+                "1_1": [],
+                "1_2": [],
+            }
+        }
     }
 }
 
@@ -131,5 +157,5 @@ def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
     :param signal_index: signal index is welke channel je hebt
     :return: pad waar csv hoort te staan
     """
-    return f"../data/cucl/verhouding {verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
+    return f"../data/verhouding {verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
 
