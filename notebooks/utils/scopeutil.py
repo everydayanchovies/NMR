@@ -1,7 +1,10 @@
+import numpy as np
 import pandas as pd
 
 # Nu hoef je alleen ene constante aan te roepen om je tijd te krijgen
 # Dan ben je minder kwetsbaar voor fouten
+from matplotlib import pyplot as plt
+
 STOF_KOPERCHLORIDE_A = "koper(ii)chloride_a H20"
 STOF_KOPERCHLORIDE_B = "koper(ii)chloride_b H20"
 STOF_ACETOON = "acetoon H20"
@@ -162,3 +165,35 @@ def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
     :return: pad waar csv hoort te staan
     """
     return f"../data/{verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
+
+
+def distill_df(df, v=False):
+    x = list(df['x'])
+    y = list(df['y'])
+
+    i_x_y_pairs = [(i, x[i], y[i]) for i in range(0, len(df))]
+
+    max_y = np.max(y)
+    i_values_at_near_max_y = [i for (i, x, y) in i_x_y_pairs if y > 0.8 * max_y]
+
+    i_of_end_of_last_peak = i_values_at_near_max_y[len(i_values_at_near_max_y) - 1]
+
+    trimmed_i_x_y_pairs = i_x_y_pairs[i_of_end_of_last_peak:]
+    if v:
+        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
+        plt.show()
+
+    READ_LEFT_OFFSET_START = round(0.05 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_END = round(0.07 * len(i_x_y_pairs))
+
+    if v:
+        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
+        plt.vlines([trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START][1],
+                    trimmed_i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
+                   ymin=0,
+                   ymax=max_y)
+        plt.show()
+
+    sample = trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
+
+    return np.average([y for (i, x, y) in sample])
