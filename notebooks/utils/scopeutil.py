@@ -246,7 +246,7 @@ def My_for_T2_df(df, v=False):
                    colors="g")
 
     DELAY = i_of_end_of_last_peak - i_at_end_of_first_peak
-    READ_LEFT_OFFSET_START = i_of_end_of_last_peak + DELAY
+    READ_LEFT_OFFSET_START = i_of_end_of_last_peak + DELAY + PI_I_LENGTH - round(0.005 * len(i_x_y_pairs))
     READ_LEFT_OFFSET_END = READ_LEFT_OFFSET_START + round(0.01 * len(i_x_y_pairs))
 
     if v:
