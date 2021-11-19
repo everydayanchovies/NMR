@@ -7,8 +7,8 @@ from matplotlib import pyplot as plt
 
 STOF_KOPERCHLORIDE_A = "koper(ii)chloride_a H20"
 STOF_KOPERCHLORIDE_B = "koper(ii)chloride_b H20"
-STOF_ACETOON = "acetoon H20"
-STOF_KOPERCHLORIDE_ACETOON = "acetoon koper(ii)chloride_a"
+STOF_ACETOON = "aceton H20"
+STOF_KOPERCHLORIDE_ACETOON = "aceton koper(ii)chloride_a"
 
 SI_PULSE = 1
 SI_SIGNAL = 2
@@ -167,7 +167,7 @@ def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
     return f"../data/{verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
 
 
-def distill_df(df, v=False):
+def My_for_T1_df(df, v=False):
     x = list(df['x'])
     y = list(df['y'])
 
@@ -183,17 +183,64 @@ def distill_df(df, v=False):
         plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
         plt.show()
 
-    READ_LEFT_OFFSET_START = round(0.05 * len(i_x_y_pairs))
-    READ_LEFT_OFFSET_END = round(0.07 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_START = round(0.02 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_END = round(0.03 * len(i_x_y_pairs))
 
     if v:
         plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
         plt.vlines([trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START][1],
                     trimmed_i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
                    ymin=0,
-                   ymax=max_y)
+                   ymax=max_y,
+                   colors="k")
         plt.show()
 
     sample = trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
+
+    return np.average([y for (i, x, y) in sample])
+
+
+def My_for_T2_df(df, v=False):
+    x = list(df['x'])
+    y = list(df['y'])
+
+    i_x_y_pairs = [(i, x[i], y[i]) for i in range(0, len(df))]
+
+    max_y = np.max(y)
+    i_x_y_pairs_at_near_max_y = [(i, x, y) for (i, x, y) in i_x_y_pairs if y > 0.8 * max_y]
+    i_values_at_near_max_y = [i for (i, x, y) in i_x_y_pairs_at_near_max_y]
+
+    first_x = i_x_y_pairs_at_near_max_y[0][1]
+    last_x = first_x
+    i_at_end_of_first_peak = -1
+    for (i, x, y) in i_x_y_pairs:
+        if i not in i_values_at_near_max_y:
+            continue
+        if abs(x - last_x) < first_x / 3:
+            continue
+        i_at_end_of_first_peak = i
+        break
+
+    i_of_end_of_last_peak = i_values_at_near_max_y[len(i_values_at_near_max_y) - 1]
+
+    trimmed_i_x_y_pairs = i_x_y_pairs[i_of_end_of_last_peak:]
+    if v:
+        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
+        plt.show()
+
+    HALF_PI_I_LENGTH = i_at_end_of_first_peak
+    READ_LEFT_OFFSET_START = (i_of_end_of_last_peak - i_at_end_of_first_peak) * 2 + HALF_PI_I_LENGTH
+    READ_LEFT_OFFSET_END = READ_LEFT_OFFSET_START + round(0.01 * len(i_x_y_pairs))
+
+    if v:
+        plt.plot([x for (i, x, y) in i_x_y_pairs], [y for (i, x, y) in i_x_y_pairs])
+        plt.vlines([i_x_y_pairs[READ_LEFT_OFFSET_START][1],
+                    i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
+                   ymin=0,
+                   ymax=max_y,
+                   colors="k")
+        plt.show()
+
+    sample = i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
 
     return np.average([y for (i, x, y) in sample])
