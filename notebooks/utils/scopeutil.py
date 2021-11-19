@@ -2,9 +2,10 @@ import pandas as pd
 
 # Nu hoef je alleen ene constante aan te roepen om je tijd te krijgen
 # Dan ben je minder kwetsbaar voor fouten
-STOF_KOPERCHLORIDE = "koper(ii)chloride"
-STOF_ACETOON = "nog om in te vullen (STOF_ACETOON)"
-STOF_KOPERCHLORIDE_ACETOON = "nog om in te vullen (STOF_KOPERCHLORIDE_ACETOON)"
+STOF_KOPERCHLORIDE_A = "koper(ii)chloride_a H20"
+STOF_KOPERCHLORIDE_B = "koper(ii)chloride_b H20"
+STOF_ACETOON = "acetoon H20"
+STOF_KOPERCHLORIDE_ACETOON = "acetoon koper(ii)chloride_a"
 
 SI_PULSE = 1
 SI_SIGNAL = 2
@@ -18,46 +19,49 @@ K_VERHOUDINGEN = "K_VERHOUDINGEN"
 # Zo dadelijk willen we snel bestanden oproepen
 # Helaas zijn we niet consistent geweest -> dus lijsten aanmaken die je telkens kan oproepen
 METADATA = {
-    STOF_KOPERCHLORIDE: {
-        K_VERHOUDINGEN: ["1_1", "1_2", "1_4", "1_16"],
+    STOF_KOPERCHLORIDE_A: {
+        K_VERHOUDINGEN: ["1_0"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_1": [400, 420, 440, 460, 480, 520],
-                "1_2": [400, 450, 500, 550, 600, 650, 700],
-                "1_4": [400, 450, 500, 550, 600, 650, 700],
-                "1_16": [400, 410, 420, 450] # Deze meting was niet optimaal/realistisch
+                "1_0": range(400,850,50),
             },
             T2: {
-                "1_1": [400, 450, 500, 550, 600, 650, 700, 750, 800],
-                "1_2": [400, 450, 500, 550, 600, 650, 700, 750, 800, 900],
-                "1_4": [400, 450, 500, 550, 600, 650, 700, 750, 950],
-                "1_16": [400, 450, 500, 550, 600, 650, 700, 900]
+                "1_0": [880],
+            }
+        }
+    },
+    STOF_KOPERCHLORIDE_B: {
+        K_VERHOUDINGEN: ["1_0", "1_1"],
+        K_DELAY_INTERVALS: {
+            T1: {
+                "1_0": [],
+                "1_1": [],
+            },
+            T2: {
+                "1_0": [],
+                "1_1": [],
             }
         }
     },
     STOF_ACETOON: {
-        K_VERHOUDINGEN: ["1_1", "1_2"],
+        K_VERHOUDINGEN: ["1_0"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_1": [],
-                "1_2": [],
+                "1_0": [],
             },
             T2: {
-                "1_1": [],
-                "1_2": [],
+                "1_0": [],
             }
         }
     },
     STOF_KOPERCHLORIDE_ACETOON: {
-        K_VERHOUDINGEN: ["1_1", "1_2"],
+        K_VERHOUDINGEN: ["1_1"],
         K_DELAY_INTERVALS: {
             T1: {
                 "1_1": [],
-                "1_2": [],
             },
             T2: {
                 "1_1": [],
-                "1_2": [],
             }
         }
     }
