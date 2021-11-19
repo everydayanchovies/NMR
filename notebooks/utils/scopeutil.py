@@ -30,8 +30,8 @@ METADATA = {
             },
             T2: {
                 "1_0": [880],
-            }
-        }
+            },
+        },
     },
     STOF_KOPERCHLORIDE_B: {
         K_VERHOUDINGEN: ["1_0", "1_1"],
@@ -43,8 +43,8 @@ METADATA = {
             T2: {
                 "1_0": [950, 1000],
                 "1_1": [920, 970],
-            }
-        }
+            },
+        },
     },
     STOF_ACETOON: {
         K_VERHOUDINGEN: ["1_0"],
@@ -54,8 +54,8 @@ METADATA = {
             },
             T2: {
                 "1_0": range(770, 2770, 200),
-            }
-        }
+            },
+        },
     },
     STOF_KOPERCHLORIDE_ACETOON: {
         K_VERHOUDINGEN: ["1_1"],
@@ -65,9 +65,9 @@ METADATA = {
             },
             T2: {
                 "1_1": range(800, 1350, 50),
-            }
-        }
-    }
+            },
+        },
+    },
 }
 
 
@@ -149,7 +149,9 @@ def get_df_of_all_delays(stof, verhouding, T, signal_index, v=False):
     delays = get_delays(stof, verhouding, T)
     if v:
         print(delays)
-    return [(delay, get_df(stof, verhouding, T, delay, signal_index, v)) for delay in delays]
+    return [
+        (delay, get_df(stof, verhouding, T, delay, signal_index, v)) for delay in delays
+    ]
 
 
 def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
@@ -180,7 +182,10 @@ def My_for_T1_df(df, v=False):
 
     trimmed_i_x_y_pairs = i_x_y_pairs[i_of_end_of_last_peak:]
     if v:
-        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
+        plt.plot(
+            [x for (i, x, y) in trimmed_i_x_y_pairs],
+            [y for (i, x, y) in trimmed_i_x_y_pairs],
+        )
         plt.show()
 
     READ_LEFT_OFFSET_START = round(0.02 * len(i_x_y_pairs))
