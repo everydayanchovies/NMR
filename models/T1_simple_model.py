@@ -10,3 +10,8 @@ f = lambda evenwichtsmagnetisatie, magnetisatie_z, t: t / (
 )
 
 model_T1 = models.model(f)
+
+# t = delays
+# magnetisatie_z = gemiddelde piek
+# evenwichtsmagnetisatie = pi/2 puls
+# (want dan kijk je naar hoe groot je vector is als je geen extra veld hebt)
