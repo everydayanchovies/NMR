@@ -23,7 +23,7 @@ METADATA = {
         K_VERHOUDINGEN: ["1_0"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_0": range(400,850,50),
+                "1_0": range(400, 850, 50),
             },
             T2: {
                 "1_0": [880],
@@ -34,12 +34,12 @@ METADATA = {
         K_VERHOUDINGEN: ["1_0", "1_1"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_0": [],
-                "1_1": [],
+                "1_0": range(430, 590, 20),
+                "1_1": range(420, 670, 50),
             },
             T2: {
-                "1_0": [],
-                "1_1": [],
+                "1_0": [950, 1000],
+                "1_1": [920, 970],
             }
         }
     },
@@ -47,10 +47,10 @@ METADATA = {
         K_VERHOUDINGEN: ["1_0"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_0": [],
+                "1_0": range(370, 640, 30),
             },
             T2: {
-                "1_0": [],
+                "1_0": range(770, 2770, 200),
             }
         }
     },
@@ -58,10 +58,10 @@ METADATA = {
         K_VERHOUDINGEN: ["1_1"],
         K_DELAY_INTERVALS: {
             T1: {
-                "1_1": [],
+                "1_1": range(400, 3150, 250),
             },
             T2: {
-                "1_1": [],
+                "1_1": range(800, 1350, 50),
             }
         }
     }
@@ -161,5 +161,4 @@ def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
     :param signal_index: signal index is welke channel je hebt
     :return: pad waar csv hoort te staan
     """
-    return f"../data/verhouding {verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
-
+    return f"../data/{verhouding} {stof}/{T}/delay{delay}u00{signal_index}.csv"
