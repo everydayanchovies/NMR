@@ -9,7 +9,7 @@ f = lambda evenwichtsmagnetisatie, magnetisatie_z, t: t / (
     -1 * np.ln(1 - ((magnetisatie_z / evenwichtsmagnetisatie)))
 )
 
-model_T1 = models.model(f)
+model_eerstetijd = models.Model(f)
 
 # t = delays
 # magnetisatie_z = gemiddelde piek

@@ -7,8 +7,8 @@ from matplotlib import pyplot as plt
 
 STOF_KOPERCHLORIDE_A = "koper(ii)chloride_a H20"
 STOF_KOPERCHLORIDE_B = "koper(ii)chloride_b H20"
-STOF_ACETOON = "acetoon H20"
-STOF_KOPERCHLORIDE_ACETOON = "acetoon koper(ii)chloride_a"
+STOF_ACETOON = "aceton H20"
+STOF_KOPERCHLORIDE_ACETOON = "aceton koper(ii)chloride_a"
 
 SI_PULSE = 1
 SI_SIGNAL = 2
@@ -30,8 +30,8 @@ METADATA = {
             },
             T2: {
                 "1_0": [880],
-            }
-        }
+            },
+        },
     },
     STOF_KOPERCHLORIDE_B: {
         K_VERHOUDINGEN: ["1_0", "1_1"],
@@ -43,8 +43,8 @@ METADATA = {
             T2: {
                 "1_0": [950, 1000],
                 "1_1": [920, 970],
-            }
-        }
+            },
+        },
     },
     STOF_ACETOON: {
         K_VERHOUDINGEN: ["1_0"],
@@ -54,8 +54,8 @@ METADATA = {
             },
             T2: {
                 "1_0": range(770, 2770, 200),
-            }
-        }
+            },
+        },
     },
     STOF_KOPERCHLORIDE_ACETOON: {
         K_VERHOUDINGEN: ["1_1"],
@@ -65,9 +65,9 @@ METADATA = {
             },
             T2: {
                 "1_1": range(800, 1350, 50),
-            }
-        }
-    }
+            },
+        },
+    },
 }
 
 
@@ -149,7 +149,9 @@ def get_df_of_all_delays(stof, verhouding, T, signal_index, v=False):
     delays = get_delays(stof, verhouding, T)
     if v:
         print(delays)
-    return [(delay, get_df(stof, verhouding, T, delay, signal_index, v)) for delay in delays]
+    return [
+        (delay, get_df(stof, verhouding, T, delay, signal_index, v)) for delay in delays
+    ]
 
 
 def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
@@ -168,8 +170,8 @@ def filepath_for_measurement_params(stof, verhouding, T, delay, signal_index):
 
 
 def distill_df(df, v=False):
-    x = list(df['x'])
-    y = list(df['y'])
+    x = list(df["x"])
+    y = list(df["y"])
 
     i_x_y_pairs = [(i, x[i], y[i]) for i in range(0, len(df))]
 
@@ -180,18 +182,28 @@ def distill_df(df, v=False):
 
     trimmed_i_x_y_pairs = i_x_y_pairs[i_of_end_of_last_peak:]
     if v:
-        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
+        plt.plot(
+            [x for (i, x, y) in trimmed_i_x_y_pairs],
+            [y for (i, x, y) in trimmed_i_x_y_pairs],
+        )
         plt.show()
 
     READ_LEFT_OFFSET_START = round(0.05 * len(i_x_y_pairs))
     READ_LEFT_OFFSET_END = round(0.07 * len(i_x_y_pairs))
 
     if v:
-        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
-        plt.vlines([trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START][1],
-                    trimmed_i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
-                   ymin=0,
-                   ymax=max_y)
+        plt.plot(
+            [x for (i, x, y) in trimmed_i_x_y_pairs],
+            [y for (i, x, y) in trimmed_i_x_y_pairs],
+        )
+        plt.vlines(
+            [
+                trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START][1],
+                trimmed_i_x_y_pairs[READ_LEFT_OFFSET_END][1],
+            ],
+            ymin=0,
+            ymax=max_y,
+        )
         plt.show()
 
     sample = trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
