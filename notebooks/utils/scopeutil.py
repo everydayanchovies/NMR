@@ -186,10 +186,9 @@ def My_for_T1_df(df, v=False):
             [x for (i, x, y) in trimmed_i_x_y_pairs],
             [y for (i, x, y) in trimmed_i_x_y_pairs],
         )
-        plt.show()
 
-    READ_LEFT_OFFSET_START = round(0.02 * len(i_x_y_pairs))
-    READ_LEFT_OFFSET_END = round(0.03 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_START = round(0.01 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_END = round(0.02 * len(i_x_y_pairs))
 
     if v:
         plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
