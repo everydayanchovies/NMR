@@ -180,26 +180,19 @@ def My_for_T1_df(df, v=False):
 
     i_of_end_of_last_peak = i_values_at_near_max_y[len(i_values_at_near_max_y) - 1]
 
-    trimmed_i_x_y_pairs = i_x_y_pairs[i_of_end_of_last_peak:]
-    if v:
-        plt.plot(
-            [x for (i, x, y) in trimmed_i_x_y_pairs],
-            [y for (i, x, y) in trimmed_i_x_y_pairs],
-        )
-
-    READ_LEFT_OFFSET_START = round(0.01 * len(i_x_y_pairs))
-    READ_LEFT_OFFSET_END = round(0.02 * len(i_x_y_pairs))
+    READ_LEFT_OFFSET_START = round(0.03 * len(i_x_y_pairs)) + i_of_end_of_last_peak
+    READ_LEFT_OFFSET_END = READ_LEFT_OFFSET_START + round(0.01 * len(i_x_y_pairs))
 
     if v:
-        plt.plot([x for (i, x, y) in trimmed_i_x_y_pairs], [y for (i, x, y) in trimmed_i_x_y_pairs])
-        plt.vlines([trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START][1],
-                    trimmed_i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
+        plt.plot([x for (i, x, y) in i_x_y_pairs], [y for (i, x, y) in i_x_y_pairs])
+        plt.vlines([i_x_y_pairs[READ_LEFT_OFFSET_START][1],
+                    i_x_y_pairs[READ_LEFT_OFFSET_END][1]],
                    ymin=0,
                    ymax=max_y,
                    colors="k")
         plt.show()
 
-    sample = trimmed_i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
+    sample = i_x_y_pairs[READ_LEFT_OFFSET_START:READ_LEFT_OFFSET_END]
 
     return np.average([y for (i, x, y) in sample])
 
