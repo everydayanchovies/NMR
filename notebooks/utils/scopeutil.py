@@ -265,7 +265,7 @@ def My_for_T2_df(df, v=False):
     return np.average([y for (i, x, y) in sample])
 
 
-def T_uncertainty_due_to_noise(v=False):
+def voltage_uncertainty_due_to_noise(v=False):
     df = get_df(STOF_KOPERCHLORIDE_ACETOON, "1_1", T1, 400, SI_SIGNAL)
 
     x = list(df['x'])
