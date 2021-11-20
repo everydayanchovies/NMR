@@ -2,14 +2,13 @@
 import numpy as np
 import math
 from lmfit import models
+from numpy import log as ln
 
 # lambda functie waaraan je kan fitten
 # Dit is de gelineariseerde versie van de gegeven formule in de handleiding
-f = lambda evenwichtsmagnetisatie, magnetisatie_z, t: t / (
-    -1 * np.ln(1 - ((magnetisatie_z / evenwichtsmagnetisatie)))
-)
+f = lambda t, M0, T1: M0 * (1 - 2 * np.exp(-1 * (t / T1)))
 
-model_eerstetijd = models.Model(f)
+model_T1 = models.Model(f)
 
 # t = delays
 # magnetisatie_z = gemiddelde piek
