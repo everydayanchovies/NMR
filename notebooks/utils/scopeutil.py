@@ -18,6 +18,7 @@ T2 = "T2"
 
 K_DELAY_INTERVALS = "K_DELAY_INTERVALS"
 K_VERHOUDINGEN = "K_VERHOUDINGEN"
+K_CONCENTRATION = "K_CONCENTRATION"
 
 # Zo dadelijk willen we snel bestanden oproepen
 # Helaas zijn we niet consistent geweest -> dus lijsten aanmaken die je telkens kan oproepen
@@ -32,6 +33,7 @@ METADATA = {
                 "1_0": [880],
             },
         },
+       K_CONCENTRATION: 1.0
     },
     STOF_KOPERCHLORIDE_B: {
         K_VERHOUDINGEN: ["1_0", "1_1"],
@@ -45,6 +47,7 @@ METADATA = {
                 "1_1": [920, 970],
             },
         },
+        K_CONCENTRATION: 1.0 # TODO this is wrong!
     },
     STOF_ACETOON: {
         K_VERHOUDINGEN: ["1_0"],
@@ -56,6 +59,7 @@ METADATA = {
                 "1_0": range(770, 2770, 200),
             },
         },
+        K_CONCENTRATION: 1.0 # TODO what is it?
     },
     STOF_KOPERCHLORIDE_ACETOON: {
         K_VERHOUDINGEN: ["1_1"],
@@ -67,6 +71,7 @@ METADATA = {
                 "1_1": range(800, 1350, 50),
             },
         },
+        K_CONCENTRATION: 1.0 # TODO what is it?
     },
 }
 
@@ -256,4 +261,23 @@ def My_for_T2_df(df, v=False):
     return np.average([y for (i, x, y) in sample])
 
 
-# def
+def T_uncertainty_due_to_noise(v=False):
+    df = get_df(STOF_KOPERCHLORIDE_ACETOON, "1_1", T1, 400, SI_SIGNAL)
+
+    x = list(df['x'])
+    y = list(df['y'])
+
+    i_x_y_pairs = [(i, x[i], y[i]) for i in range(round(len(df) / 4), len(df))]
+
+    if v:
+        plt.plot([x for (i, x, y) in i_x_y_pairs], [y for (i, x, y) in i_x_y_pairs])
+
+    noise = [y for (i, x, y) in i_x_y_pairs]
+    return np.sqrt(np.mean(np.square(noise)))
+
+
+def T_uncertainty_for_stof(stof):
+    concentration = METADATA[stof][K_CONCENTRATION] # mol per liter
+    concentration *= 1000 # mol per cubic centimeter
+    concentration_error = concentration * 0.3 # 30% error
+    return 1 / concentration_error # T is inversely proportional to N
