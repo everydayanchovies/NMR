@@ -7,6 +7,7 @@ from numpy import log as ln
 # lambda functie waaraan je kan fitten
 # Dit is de gelineariseerde versie van de gegeven formule in de handleiding
 f = lambda t, M0, T2: M0 * np.exp(-t / T2) # / (1 - np.exp(-t / 2034)) ?
+# f = lambda t, M0, T2: M0 * (1 - 2 * np.exp(-1 * (t / T2)))
 
 model_T2 = models.Model(f)
 

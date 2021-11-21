@@ -6,7 +6,7 @@ from numpy import log as ln
 
 # lambda functie waaraan je kan fitten
 # Dit is de gelineariseerde versie van de gegeven formule in de handleiding
-f = lambda t, M0, T1: M0 * (1 - 2 * np.exp(-1 * (t / T1)))
+f = lambda t, M0, T1: M0 * (1 - 2 * np.exp(-t / T1))
 
 model_T1 = models.Model(f)
 
